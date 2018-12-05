@@ -28,17 +28,27 @@ int main(void)
     if (input)
     {
         fgets(orig, sizeof(orig), input);
-        printf("len %i\n", strlen(sequence));
+        printf("original len %i\n", strlen(orig)-1);
 
 //        strcpy(sequence, "dabAcCaCBAcCcaDA");
+
+        uint32_t reductions = 0;
+        uint32_t reduced = 0;
+        strcpy(sequence, orig);
+        do
+        {
+            reduced = reduce();
+            reductions += reduced;
+        } while (reduced);
+        printf("answer A: len %i\n", strlen(sequence)-1);
 
         uint32_t shortestlen = -1;
         char shortest;
 
         for (char c = 'a'; c <= 'z'; c++)
         {
-            uint32_t reductions = 0;
-            uint32_t reduced = 0;
+            reductions = 0;
+            reduced = 0;
             strcpy(sequence, orig);
             removeElem(c);
             do
@@ -54,10 +64,10 @@ int main(void)
                 shortestlen = strlen(sequence);
             }
 
-            printf("len %i\n", strlen(sequence));
+//            printf("len %i\n", strlen(sequence)-1);
         }
 
-        printf("shortest reduction is %c with %i\n", shortest, shortestlen);
+        printf("Answer B: shortest reduction is %c with %i\n", shortest, shortestlen-1);
 
         return 0;
     }
@@ -110,7 +120,7 @@ int reduce(void)
                 len-=2;
                 // hack to undo the increment
                 index--;
-                return (reduced);
+                //return (reduced);
             }
         }
         index++;
